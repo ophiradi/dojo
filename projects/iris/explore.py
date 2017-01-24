@@ -1,5 +1,6 @@
 ### http://machinelearningmastery.com/machine-learning-in-python-step-by-step/ ###
 # Load libraries
+import sys
 import pandas
 from pandas.tools.plotting import scatter_matrix
 import matplotlib.pyplot as plt
@@ -15,34 +16,39 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 
 # Load dataset
-url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
-names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
-dataset = pandas.read_csv(url, names=names)
+def getIrisDataset(url):
+  names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+  return pandas.read_csv(url, names=names)
 
-# shape
-#print(dataset.shape)
+def dim(dataset):
+  # In r - dim
+  return dataset.shape
 
-# head
-#print(dataset.head(20))
+def head(dataset, lines_count): 
+  return dataset.head(lines_count)
 
+def summary(dataset):
+  return dataset.describe()
+
+def slice_columns(dataset, columns_vec):
+  return dataset.groupby(columns_vec).size()
+##==============================================================================================================
+dataset = getIrisDataset(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
 # descriptions
-#print(dataset.describe())
+##print(dim(dataset))
+##print(head(dataset, 20))
+##print(summary(dataset))
 
-# class distribution
-#print(dataset.groupby('class').size())
+# column distribution
+#print slice_columns(dataset, ['class', 'sepal-width'])
 
-# box and whisker plots
-#dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
-#plt.show()
+# box and whisker plots + histograms + scatter plot matrix`
+##dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+##dataset.hist()
+##scatter_matrix(dataset)
+##plt.show()
 
-# histograms
-#dataset.hist()
-#plt.show()
-
-# scatter plot matrix
-#scatter_matrix(dataset)
-#plt.show()
-
+sys.exit()
 # Split-out validation dataset
 array = dataset.values
 X = array[:,0:4]
